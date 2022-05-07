@@ -996,6 +996,11 @@ func (dataset Dataset) SetProjection(proj string) error {
 	return C.GDALSetProjection(dataset.cval, cProj).Err()
 }
 
+func (dataset Dataset) Spatial() SpatialReference {
+	sr := C.GDALGetSpatialRef(dataset.cval)
+	return SpatialReference{sr}
+}
+
 // Get the affine transformation coefficients
 func (dataset Dataset) GeoTransform() [6]float64 {
 	var transform [6]float64
@@ -1864,21 +1869,21 @@ func VSIFReadL(nSize, nCount int, file VSILFILE) []byte {
 
 // Read all bytes from file.
 func VSIFReadAllL(file VSILFILE) []byte {
-  C.VSIFSeekL(file.cval, 0, C.SEEK_END)
-  size := int(C.VSIFTellL(file.cval))
-  C.VSIFSeekL(file.cval, 0, C.SEEK_SET)
+	C.VSIFSeekL(file.cval, 0, C.SEEK_END)
+	size := int(C.VSIFTellL(file.cval))
+	C.VSIFSeekL(file.cval, 0, C.SEEK_SET)
 
-  data := make([]byte, size)
-  p := unsafe.Pointer(&data[0])
-  C.VSIFReadL(p, 1, C.size_t(size), file.cval)
+	data := make([]byte, size)
+	p := unsafe.Pointer(&data[0])
+	C.VSIFReadL(p, 1, C.size_t(size), file.cval)
 
-  return data
+	return data
 }
 
 // Get file size
 func VSIFileSizeL(file VSILFILE) int {
-  C.VSIFSeekL(file.cval, 0, C.SEEK_END)
-  size := int(C.VSIFTellL(file.cval))
-  C.VSIFSeekL(file.cval, 0, C.SEEK_SET)
-  return size
+	C.VSIFSeekL(file.cval, 0, C.SEEK_END)
+	size := int(C.VSIFTellL(file.cval))
+	C.VSIFSeekL(file.cval, 0, C.SEEK_SET)
+	return size
 }
