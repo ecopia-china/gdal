@@ -1131,6 +1131,11 @@ func (sourceDataset Dataset) CopyWholeRaster(
 	).Err()
 }
 
+func (dataset Dataset) GCPSpatialRef() SpatialReference {
+	sr := C.GDALGetGCPSpatialRef(dataset.cval)
+	return SpatialReference{sr}
+}
+
 /* ==================================================================== */
 /*      GDALRasterBand ... one band/channel in a dataset.               */
 /* ==================================================================== */
