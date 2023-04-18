@@ -275,7 +275,7 @@ func (sr SpatialReference) SetAngularUnits(units string, radians float64) error 
 func (sr SpatialReference) AngularUnits() (string, float64) {
 	var x *C.char
 	factor := C.OSRGetAngularUnits(sr.cval, &x)
-	defer C.free(unsafe.Pointer(x))
+	// defer C.free(unsafe.Pointer(x))
 	return C.GoString(x), float64(factor)
 }
 
@@ -306,7 +306,7 @@ func (sr SpatialReference) SetLinearUnitsAndUpdateParameters(name string, toMete
 func (sr SpatialReference) LinearUnits() (string, float64) {
 	var x *C.char
 	factor := C.OSRGetLinearUnits(sr.cval, &x)
-	defer C.free(unsafe.Pointer(x))
+	// defer C.free(unsafe.Pointer(x))
 	return C.GoString(x), float64(factor)
 }
 
