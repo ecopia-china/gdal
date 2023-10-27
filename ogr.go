@@ -739,6 +739,12 @@ func (geom Geometry) BuildPolygonFromEdges(autoClose bool, tolerance float64) (G
 	return Geometry{newGeom}, cErr.Err()
 }
 
+// Make valid for the geom
+func (geom Geometry) MakeValid() Geometry {
+	newGeom := C.OGR_G_MakeValid(geom.cval)
+	return Geometry{newGeom}
+}
+
 /* -------------------------------------------------------------------- */
 /*      Field definition functions                                      */
 /* -------------------------------------------------------------------- */
